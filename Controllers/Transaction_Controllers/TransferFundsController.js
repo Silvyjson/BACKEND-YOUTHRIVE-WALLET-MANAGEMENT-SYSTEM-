@@ -1,13 +1,15 @@
 const AuthModel = require("../../Models/AuthModel");
 const TransactionModel = require("../../Models/TransactionModel");
+const SendCreditAlertMail = require("../../Utilities/SendCreditAlertMail");
+const SendDebitAlertMail = require("../../Utilities/SendDebitAlertMail");
 
-// still working on this
+// Handle transfer of funds between user accounts within the company.
 
 const handleTransferFunds = async (req, res) => {
     try {
-        const {receiver, amount, description } = req.body;
+        const { accountNumber, amount, description } = req.body;
 
-        if( !receiver || !amount || !description ) {
+        if (!accountNumber || !amount || !description) {
             return res.status(400).json({ message: 'Please fill all the fields' });
         }
 
@@ -17,10 +19,14 @@ const handleTransferFunds = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        const receiverAC = await AuthModel.findOne({ email: receiver})
+        const receiverAC = await AuthModel.findOne({ Account_Number: accountNumber });
 
         if (!receiverAC) {
             return res.status(404).json({ message: 'Receiver not found' });
+        }
+
+        if (senderAC.Account_Number === accountNumber) {
+            return res.status(400).json({ message: 'Invalid Transaction' });
         }
 
         if (senderAC.Wallet_Balance < amount) {
@@ -33,20 +39,46 @@ const handleTransferFunds = async (req, res) => {
         receiverAC.Wallet_Balance += amount;
         await receiverAC.save();
 
-        const newTransaction = new TransactionModel({
-            type: 'credit',
-            sender: req.user.id,
-            receiver,
+        const date = new Date().toLocaleString();
+
+        const senderTransaction = new TransactionModel({
+            type: 'debit',
+            user: senderAC.id,
             amount,
-            description
+            description,
+            date,
+            balance: senderAC.Wallet_Balance
         });
 
-        await newTransaction.save();
+        const receiverTransaction = new TransactionModel({
+            type: 'credit',
+            user: receiverAC.id,
+            amount,
+            description,
+            date,
+            balance: receiverAC.Wallet_Balance
+        });
 
-        return res.status(200).json({ message: 'Wallet funded successfully' });
+        await senderTransaction.save();
+        await receiverTransaction.save();
+
+        const senderFirstName = senderAC.firstName;
+        const senderLastName = senderAC.lastName;
+        const senderAccount_Number = senderAC.Account_Number;
+        const senderWallet_Balance = senderAC.Wallet_Balance;
+
+        const receiverFirstName = receiverAC.firstName;
+        const receiverLastName = receiverAC.lastName;
+        const receiverAccount_Number = receiverAC.Account_Number;
+        const receiverWallet_Balance = senderAC.Wallet_Balance;
+
+        await SendDebitAlertMail(senderAC.email, senderFirstName, amount, date , senderAccount_Number, receiverFirstName, receiverLastName, receiverAccount_Number, description, senderWallet_Balance)
+        await SendCreditAlertMail(receiverAC.email, receiverFirstName, amount, date, receiverAccount_Number, senderFirstName, senderLastName, senderAccount_Number, description, receiverWallet_Balance)
+
+        return res.status(200).json({ message: 'Funds transferred successfully' });
 
     } catch (error) {
-        return res.status(400).json({ error_message: error.message });
+        return res.status(500).json({ error_message: error.message });
     }
 }
 

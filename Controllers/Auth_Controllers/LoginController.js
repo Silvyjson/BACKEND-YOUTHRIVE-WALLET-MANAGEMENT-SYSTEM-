@@ -18,12 +18,12 @@ const handleLogin = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
     }
 
-    if (user.active === false) {
-      return res.status(404).json({ message: "This account was activated" });
+    if (user.isActive === false) {
+      return res.status(403).json({ message: "This account is deactivated" });
     }
 
     if (user.isVerified === false) {
-      return res.status(404).json({ message: "Email not verified. Please check your inbox for the verification email." });
+      return res.status(403).json({ message: "Email not verified. Please check your inbox for the verification email." });
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_TOKEN, {
@@ -38,7 +38,7 @@ const handleLogin = async (req, res) => {
       user: safeUser,
     });
   } catch (error) {
-    return res.status(400).json({ error_message: error.message });
+    return res.status(500).json({ error_message: error.message });
   }
 };
 

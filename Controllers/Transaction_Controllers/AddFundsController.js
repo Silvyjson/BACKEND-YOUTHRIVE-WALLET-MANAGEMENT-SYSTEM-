@@ -3,7 +3,7 @@ const TransactionModel = require("../../Models/TransactionModel");
 
 // still working on this
 
-const handelAddFunds = async (req, res) => {
+const handleAddFunds = async (req, res) => {
 try{
     const { amount, description } = req.body;
 
@@ -21,8 +21,8 @@ try{
     await user.save();
 
     const newTransaction = new TransactionModel({
-        sender: user.id,
-        reciever: user.id,
+        date,
+        user: user.id,
         type: 'credit',
         amount,
         description,
@@ -35,4 +35,4 @@ try{
 }
 };
 
-module.exports = handelAddFunds;
+module.exports = handleAddFunds;

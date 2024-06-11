@@ -1,11 +1,12 @@
 const AuthModel = require("../../Models/AuthModel");
-const SendVerificationmail = require("../../Utilities/SendVerificationmail");
+const generateAccountNumber = require("../../Utilities/GenarateACN");
+const SendVerificationMail = require("../../Utilities/SendVerificationMail");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const handleRegistration = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, role } = req.body;
+    const { firstName, lastName, email, password, phoneNumber, address, role } = req.body;
 
     const existingUser = await AuthModel.findOne({ email });
 
@@ -15,11 +16,18 @@ const handleRegistration = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const Account_Number = await generateAccountNumber()
+
+    console.log(Account_Number)
+
     const newUser = new AuthModel({
       firstName,
       lastName,
       email,
       password: hashedPassword,
+      Account_Number,
+      phoneNumber, 
+      address, 
       role,
     });
 
@@ -31,9 +39,9 @@ const handleRegistration = async (req, res) => {
 
     const verificationLink = `http://localhost:8008/api/verify-user?token=${token}`;
 
-    await SendVerificationmail(email, firstName, verificationLink);
+    await SendVerificationMail(email, firstName, verificationLink);
 
-    const { password: _, ...safeUser } = user.toObject();
+    const { password: _, ...safeUser } = newUser.toObject();
 
     return res.status(200).json({
       message:
@@ -41,11 +49,11 @@ const handleRegistration = async (req, res) => {
       newUser: safeUser,
     });
   } catch (error) {
-    return res.status(400).json({ error_message: error.message });
+    return res.status(500).json({ error_message: error.message });
   }
 };
 
-const handleVerifyUSer = async (req, res) => {
+const handleVerifyUser = async (req, res) => {
   try {
     const { token } = req.query;
 
@@ -69,8 +77,8 @@ const handleVerifyUSer = async (req, res) => {
 
     return res.status(200).json({ message: "Email verified successfully" });
   } catch (error) {
-    return res.status(400).json({ error_message: error.message });
+    return res.status(500).json({ error_message: error.message });
   }
 };
 
-module.exports = { handleRegistration, handleVerifyUSer };
+module.exports = { handleRegistration, handleVerifyUser };

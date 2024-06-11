@@ -1,9 +1,6 @@
 const jwt = require("jsonwebtoken");
 const AuthModel = require("../Models/AuthModel");
 
-// the Token is only getting the first user in the AuthModel
-// still working on it
-
 const authenticateUser = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
@@ -18,15 +15,11 @@ const authenticateUser = async (req, res, next) => {
       return res.status(401).json({ message: "Access Denied" });
     }
 
-    const user = await AuthModel.findOne({ id: verifiedToken.id });
+    const user = await AuthModel.findOne({ _id: verifiedToken.userId });
 
     if (!user) {
       return res.status(404).json({ message: "user not found" });
     }
-
-    console.log(user)
-
-    // console.log(`Authenticated user: ${user._id}, role: ${user.role}`);
 
     req.user = {
       id: user._id,

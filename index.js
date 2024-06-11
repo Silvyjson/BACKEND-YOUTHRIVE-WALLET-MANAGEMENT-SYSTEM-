@@ -2,10 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
+const cron = require("node-cron");
 
 const AuthRoutes = require("./Routes/AuthRoutes");
 const TransacRoutes = require("./Routes/TransactionRoutes");
 const Documentation = require("./VIEW/documentation");
+const deleteNonverifiedUsers = require("./Utilities/DeleteNonverifiedUsers");
 
 const app = express();
 
@@ -22,6 +24,13 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
+// scheduled tasks to delete unverified user accounts with expired token  
+cron.schedule("* * * * *", async () => {
+  console.log("Running delete unverified users with expired tokens...");
+  await deleteNonverifiedUsers();
+});
+
+
 app.get("/", (req, res) => {
   res.send(Documentation);
 });
@@ -34,3 +43,4 @@ app.use((req, res) => {
     message: "Page not found",
   });
 });
+

@@ -33,7 +33,7 @@ const handleForgotPassword = async (req, res) => {
       .status(200)
       .json({ message: "Reset password link has been sent to your email" });
   } catch (error) {
-    return res.status(400).json({ error_message: error.message });
+    return res.status(500).json({ error_message: error.message });
   }
 };
 
@@ -73,7 +73,7 @@ const handleResetPassword = async (req, res) => {
 
     return res.status(200).json({ message: "Password reset successful" });
   } catch (error) {
-    return res.status(400).json({ error_message: error.message });
+    return res.status(500).json({ error_message: error.message });
   }
 };
 
