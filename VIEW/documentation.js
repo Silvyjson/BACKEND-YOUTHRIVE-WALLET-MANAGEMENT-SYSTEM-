@@ -8,6 +8,10 @@ const Documentation =
 </div>
 
 <div style="margin-bottom: 40px;">
+    <b>ENDPOINT_URL: https://backend-youthrive-wallet-management.onrender.com</b>
+</div>
+
+<div style="margin-bottom: 40px;">
     <h2 style="color: #333;">API Endpoints</h2>
 
     <div style="background-color: #e8e8e8; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
