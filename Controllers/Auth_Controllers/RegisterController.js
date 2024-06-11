@@ -37,7 +37,7 @@ const handleRegistration = async (req, res) => {
       expiresIn: "1h",
     });
 
-    const verificationLink = `http://localhost:8008/api/verify-user?token=${token}`;
+    const verificationLink = `https://backend-youthrive-wallet-management.onrender.com/api/verify-user?token=${token}`;
 
     await SendVerificationMail(email, firstName, verificationLink);
 
