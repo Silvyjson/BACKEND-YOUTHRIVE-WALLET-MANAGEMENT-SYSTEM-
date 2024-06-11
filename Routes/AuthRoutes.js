@@ -1,6 +1,6 @@
 const express = require("express");
 
-const authVerification = require("../MiddleWare/authVerification");
+const authVerification = require("../MiddleWare/AuthVerification");
 const {handleRegistration, handleVerifyUser} = require("../Controllers/Auth_Controllers/RegisterController");
 const {handleLogin, handleLogout} = require("../Controllers/Auth_Controllers/LoginController");
 const { handleEditUser, handleActivateUser, handleDeactivateUser, handleDeleteUser } = require("../Controllers/Auth_Controllers/EditUserController");
