@@ -1,6 +1,6 @@
 const AuthModel = require("../../Models/AuthModel");
 const generateAccountNumber = require("../../Utilities/GenarateACN");
-const SendVerificationMail = require("../../Utilities/SendVerificatinMail");
+const SendVerificationMail = require("../../Utilities/SendVerificationMail");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
