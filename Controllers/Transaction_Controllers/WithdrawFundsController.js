@@ -3,6 +3,7 @@ const TransactionModel = require("../../Models/TransactionModel");
 
 // still working on this
 
+// withdrawing funds to external accounts
 const handleWithdrawFunds = async (req, res) => {
 try{
     const { amount, description } = req.body;

@@ -3,6 +3,7 @@ const TransactionModel = require("../../Models/TransactionModel");
 
 // still working on this
 
+// addind funds from external accounts
 const handleAddFunds = async (req, res) => {
 try{
     const { amount, description } = req.body;
