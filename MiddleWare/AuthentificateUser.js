@@ -9,7 +9,7 @@ const authenticateUser = async (req, res, next) => {
       return res.status(401).json({ message: 'No token provided' });
     }
 
-    const verifiedToken = jwt.verify(token, process.env.JWT_TOken);
+    const verifiedToken = jwt.verify(token, process.env.JWT_TOKEN);
 
     if (!verifiedToken) {
       return res.status(401).json({ message: "Access Denied" });
@@ -28,6 +28,7 @@ const authenticateUser = async (req, res, next) => {
 
     next();
   } catch (error) {
+    console.log(error.message);
     return res.status(500).json({ error_message: error.message });
   }
 };
