@@ -11,7 +11,7 @@ const TransacRoutes = express.Router();
 
 TransacRoutes.post("/addFunds", authenticateUser, handleAddFunds );
 
-TransacRoutes.post("WithdrawFunds", authenticateUser, handleWithdrawFunds );
+TransacRoutes.post("/withdrawFunds", authenticateUser, handleWithdrawFunds );
 
 TransacRoutes.post("/transferFunds", authenticateUser, handleTransferFunds);
 

@@ -1,12 +1,14 @@
 const AuthModel = require("../../Models/AuthModel");
 const generateAccountNumber = require("../../Utilities/GenarateACN");
-const SendVerificationMail = require("../../Utilities/SendVerificationMail");
+const SendEmail = require("../../Utilities/SendEmail");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { VerificationMail } = require("../../VIEW/mailDetails");
 
 const handleRegistration = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, phoneNumber, address, role } = req.body;
+    const { firstName, lastName, email, password, phoneNumber, address, role } =
+      req.body;
 
     const existingUser = await AuthModel.findOne({ email });
 
@@ -16,9 +18,7 @@ const handleRegistration = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const Account_Number = await generateAccountNumber()
-
-    console.log(Account_Number)
+    const Account_Number = await generateAccountNumber();
 
     const newUser = new AuthModel({
       firstName,
@@ -26,8 +26,8 @@ const handleRegistration = async (req, res) => {
       email,
       password: hashedPassword,
       Account_Number,
-      phoneNumber, 
-      address, 
+      phoneNumber,
+      address,
       role,
     });
 
@@ -37,10 +37,14 @@ const handleRegistration = async (req, res) => {
       expiresIn: "1h",
     });
 
+    const subject = "Verification Mail";
+
     // frontend link that handle's verification
     const verificationLink = `http://localhost:8008/api/verify-user?token=${token}`;
 
-    await SendVerificationMail(email, firstName, verificationLink);
+    const message = VerificationMail(firstName, verificationLink);
+
+    await SendEmail(email, subject, message);
 
     const { password: _, ...safeUser } = newUser.toObject();
 

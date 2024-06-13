@@ -28,7 +28,6 @@ const authenticateUser = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error.message);
     return res.status(500).json({ error_message: error.message });
   }
 };

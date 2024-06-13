@@ -1,7 +1,8 @@
 const AuthModel = require("../../Models/AuthModel");
-const SendResetPasswordMail = require("../../Utilities/SendResetPasswordMail");
+const SendEmail = require("../../Utilities/SendEmail");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { ResetPasswordMail } = require("../../VIEW/mailDetails");
 
 const handleForgotPassword = async (req, res) => {
   try {
@@ -24,10 +25,14 @@ const handleForgotPassword = async (req, res) => {
       expiresIn: "10m",
     });
 
+    const subject = "Reset Password Mail";
+
     // URL to the frontend with the token as a query parameter
     const ResetLink = `http://localhost:8008/api/resetPassword?token=${token}`;
+    
+    const message = ResetPasswordMail(user.firstName, ResetLink);
 
-    await SendResetPasswordMail(email, user.firstName, ResetLink);
+    await SendEmail(email, subject, message);
 
     return res
       .status(200)
