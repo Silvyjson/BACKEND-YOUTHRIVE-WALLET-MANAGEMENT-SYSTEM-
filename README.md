@@ -26,7 +26,7 @@ MONGO_URI=your_mongodb_connection_string
 EMAIL= your email service for sending emials
 PASSWORD=your password`
 
-4. Start the server: `npm run dev`
+5. Start the server: `npm run dev`
 
 Usage
 
