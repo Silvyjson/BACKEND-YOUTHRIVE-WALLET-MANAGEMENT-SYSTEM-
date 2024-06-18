@@ -45,7 +45,16 @@ const handleLogin = async (req, res) => {
 // still working on this 
 
 const handleLogout = (req, res) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(400).json({ message: "No token provided" });
+  }
+
+  res.cookie('token', '', { expires: new Date(0) });
+
   return res.status(200).json({ message: "Logout successful" });
 };
+
 
 module.exports = { handleLogin, handleLogout };

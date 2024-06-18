@@ -15,7 +15,7 @@ AuthRouter.get('/verify-user', handleVerifyUser)
 
 AuthRouter.post('/login', handleLogin)
 
-AuthRouter.post('/logout', handleLogout)
+AuthRouter.post('/logout', authenticateUser, handleLogout)
 
 AuthRouter.post('/forgotPassword', handleForgotPassword )
 

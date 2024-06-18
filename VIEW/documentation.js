@@ -28,8 +28,7 @@ URL: /api/register
 "email": "john.doe@example.com",
 "password": "Password123!",
 "phoneNumber": 0812345678,
-"address": "Lagos, Nigeria",
-"role": "user"
+"address": "Lagos, Nigeria"
 }
 </code>
 </pre>
@@ -177,6 +176,7 @@ METHOD: POST
 URL: /api/addFunds
 
 {
+"accountNumber": 23xxxxxx56,
 "amount": 100,
 "description": "Adding funds from external account"
 }
@@ -193,6 +193,7 @@ METHOD: POST
 URL: /api/withdrawFunds
 
 {
+"accountNumber": 23xxxxxx56,
 "amount": 50,
 "description": "Withdrawing funds to external account"
 }
