@@ -230,6 +230,19 @@ URL: /api/transactionHistory
 </code>
 </pre>
     </div>
+
+    <div style="background-color: #e8e8e8; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+        <h3 style="margin-top: 0; color: #333;">GET /api/getBalance</h3>
+        <p>Get wallet balance of authenticated user.</p>
+<pre style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;">
+<code style="font-size: 0.8rem;">
+METHOD: GET
+URL: /api/getBalance
+
+{}
+</code>
+</pre>
+    </div>
 </div>
 </body>`;
 

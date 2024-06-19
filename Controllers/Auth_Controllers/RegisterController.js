@@ -10,6 +10,10 @@ const handleRegistration = async (req, res) => {
     const { firstName, lastName, email, password, phoneNumber, address, role } =
       req.body;
 
+      if(!firstName || !lastName || !phoneNumber || !address) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+
     const existingUser = await AuthModel.findOne({ email });
 
     if (existingUser) {
