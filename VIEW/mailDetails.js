@@ -1,8 +1,8 @@
-const VerificationMail = (firstName, verificationLink) => {
+const VerificationMail = (lastName, firstName, verificationLink) => {
   return `
   <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
     <div style="max-width: 600px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <h3>Welcome ${firstName}</h3>
+        <h3>Welcome ${lastName} ${firstName}</h3>
         <p>Thank you for registering with us. Please verify your email address by clicking on the link below.</p>
         <a href="${verificationLink}">Verify Email</a>
         <p>If you did not register with us, please ignore this email.</p>
@@ -12,12 +12,12 @@ const VerificationMail = (firstName, verificationLink) => {
   </body>`;
 };
 
-const ResetPasswordMail = (firstName, ResetLink) => {
+const ResetPasswordMail = (lastName, firstName, ResetLink) => {
   return `
   <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
     <div style="max-width: 600px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
       <h1>Reset Password</h1>
-      <h3>Hello ${firstName}</h3>
+      <h3>Hello ${lastName} ${firstName}</h3>
       <p>Click on the link below to reset your password</p>
       <a href="${ResetLink}">Reset Password</a>
       <p>If you did not request this, please ignore this email.</p>
@@ -27,6 +27,7 @@ const ResetPasswordMail = (firstName, ResetLink) => {
 };
 
 const CreditAlertMail = (
+  receiverLastName,
   receiverFirstName,
   amount,
   date,
@@ -41,7 +42,7 @@ const CreditAlertMail = (
   <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
     <div style="max-width: 600px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
       <h2 style="color: #333; margin-top: 0;">Credit Alert</h2>
-      <p style="margin-bottom: 20px;">Dear ${receiverFirstName},</p>
+      <p style="margin-bottom: 20px;">Dear ${receiverLastName} ${receiverFirstName},</p>
       <p style="margin-bottom: 20px;">This is to inform you that an amount of ₦${amount} has been credited to your account.</p>
       <p style="margin-bottom: 20px;">Transaction Details:</p>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
@@ -93,6 +94,7 @@ const CreditAlertMail = (
 };
 
 const DebitAlertMail = (
+  senderLastName,
   senderFirstName,
   amount,
   date,
@@ -107,7 +109,7 @@ const DebitAlertMail = (
   <body style="font-family: Arial, sans-serif; margin: 0; padding: 0;">
     <div style="max-width: 600px; margin: 20px auto; background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
       <h2 style="color: #333; margin-top: 0;">Debit Alert</h2>
-      <p style="margin-bottom: 20px;">Dear ${senderFirstName},</p>
+      <p style="margin-bottom: 20px;">Dear ${senderLastName} ${senderFirstName},</p>
       <p style="margin-bottom: 20px;">This is to inform you that an amount of ₦${amount} has been debited from your account.</p>
       <p style="margin-bottom: 20px;">Transaction Details:</p>
       <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">

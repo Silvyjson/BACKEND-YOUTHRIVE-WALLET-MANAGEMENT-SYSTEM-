@@ -14,7 +14,7 @@ const SendEmail = async(email, subject, message) => {
     })
 
     const mailDetails = {
-        from: AUTH_EMAIL,
+        from: "info.youthrive.com",
         to: email,
         subject: subject,
         html: message

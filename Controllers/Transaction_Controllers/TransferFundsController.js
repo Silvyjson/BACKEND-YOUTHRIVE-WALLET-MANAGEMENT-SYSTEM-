@@ -79,6 +79,7 @@ const handleTransferFunds = async (req, res) => {
 
     subject = "Debit Alert";
     message = DebitAlertMail(
+      senderLastName,
       senderFirstName,
       amount,
       date,
@@ -94,6 +95,7 @@ const handleTransferFunds = async (req, res) => {
 
     subject = "Credit Alert";
     message = CreditAlertMail(
+      receiverLastName,
       receiverFirstName,
       amount,
       date,

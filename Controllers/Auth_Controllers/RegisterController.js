@@ -44,9 +44,9 @@ const handleRegistration = async (req, res) => {
     const subject = "Verification Mail";
 
     // frontend link that handle's verification
-    const verificationLink = `http://localhost:8008/api/verify-user?token=${token}`;
+    const verificationLink = `https://backend-youthrive-wallet-management.onrender.com/api/verify-user?token=${token}`;
 
-    const message = VerificationMail(firstName, verificationLink);
+    const message = VerificationMail(lastName, firstName, verificationLink);
 
     await SendEmail(email, subject, message);
 

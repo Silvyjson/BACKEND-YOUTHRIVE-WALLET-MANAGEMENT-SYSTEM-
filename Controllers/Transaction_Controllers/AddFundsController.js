@@ -53,6 +53,7 @@ const handleAddFunds = async (req, res) => {
 
     const subject = "Credit Alert";
     const message = CreditAlertMail(
+      user.lastName,
       user.firstName,
       amount,
       date,

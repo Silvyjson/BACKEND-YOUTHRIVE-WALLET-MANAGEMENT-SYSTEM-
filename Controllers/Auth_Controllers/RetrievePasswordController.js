@@ -28,9 +28,9 @@ const handleForgotPassword = async (req, res) => {
     const subject = "Reset Password Mail";
 
     // URL to the frontend with the token as a query parameter
-    const ResetLink = `http://localhost:8008/api/resetPassword?token=${token}`;
+    const ResetLink = `https://backend-youthrive-wallet-management.onrender.com/api/resetPassword?token=${token}`;
     
-    const message = ResetPasswordMail(user.firstName, ResetLink);
+    const message = ResetPasswordMail(user.lastName, user.firstName, ResetLink);
 
     await SendEmail(email, subject, message);
 
